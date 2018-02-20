@@ -65,4 +65,16 @@ public class AWSProvider {
         }
         return pinpointManager;
     }
+
+    public DynamoDBMapper getDynamoDBMapper() {
+        if (dbMapper == null) {
+            final AWSCredentialsProvider cp = getIdentityManager().getCredentialsProvider();
+            dbClient = new AmazonDynamoDBClient(cp);
+            dbMapper = DynamoDBMapper.builder()
+                    .awsConfiguration(getConfiguration())
+                    .dynamoDBClient(dbClient)
+                    .build();
+        }
+        return dbMapper;
+    }
 }
