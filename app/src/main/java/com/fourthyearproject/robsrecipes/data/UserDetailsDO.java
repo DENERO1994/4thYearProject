@@ -1,4 +1,4 @@
-package com.amazonaws.models.nosql;
+package com.fourthyearproject.robsrecipes.data;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
