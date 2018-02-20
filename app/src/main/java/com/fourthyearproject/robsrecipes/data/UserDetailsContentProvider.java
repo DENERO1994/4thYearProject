@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.fourthyearproject.robsrecipes.AWSProvider;
 
 import java.util.Locale;
@@ -141,17 +142,17 @@ public class UserDetailsContentProvider extends ContentProvider {
         int uriType = sUriMatcher.match(uri);
         switch (uriType) {
             case ALL_ITEMS:
-                SQLiteDatabase db = databaseHelper.getWritableDatabase();
-                long id = db.insert(UserDetailsContentContract.UserDetails.TABLE_NAME, null, values);
-                if (id > 0) {
-                    String userDetailsId = values.getAsString(UserDetailsContentContract.UserDetails.USERDETAILSID);
-                    Uri item = UserDetailsContentContract.UserDetails.uriBuilder(userDetailsId);
-                    notifyAllListeners(item);
-                    return item;
-                }
-                throw new SQLException(String.format(Locale.US, "Error inserting for URI %s - id = %d", uri, id));
+                DynamoDBMapper dbMapper = AWSProvider.getInstance().getDynamoDBMapper();
+                final UserDetailsDO newUserDetails = toUserDetailsDO(values);
+                dbMapper.save(newUserDetails);
+                Uri item = new Uri.Builder()
+                        .appendPath(UserDetailsContentContract.CONTENT_URI.toString())
+                        .appendPath(newUserDetails.getUserDetailsId())
+                        .build();
+                notifyAllListeners(item);
+                return item;
             default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri);
+                throw new IllegalArgumentException("Unsupported URI: " + uri)
         }
     }
 
@@ -169,19 +170,13 @@ public class UserDetailsContentProvider extends ContentProvider {
         int rows;
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         switch (uriType) {
-            case ALL_ITEMS:
-                rows = db.delete(
-                        UserDetailsContentContract.UserDetails.TABLE_NAME,  // The table name
-                        selection, selectionArgs);              // The WHERE clause
-                break;
             case ONE_ITEM:
-                String where = getOneItemClause(uri.getLastPathSegment());
-                if (!TextUtils.isEmpty(selection)) {
-                    where += " AND " + selection;
-                }
-                rows = db.delete(
-                        UserDetailsContentContract.UserDetails.TABLE_NAME,  // The table name
-                        where, selectionArgs);                  // The WHERE clause
+                DynamoDBMapper dbMapper = AWSProvider.getInstance().getDynamoDBMapper();
+                final UserDetailsDO userDetails = new UserDetailsDO();
+                userDetails.setUserDetailsId(uri.getLastPathSegment());
+                userDetails.setUserId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
+                dbMapper.delete(userDetails);
+                rows = 1;
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -208,21 +203,11 @@ public class UserDetailsContentProvider extends ContentProvider {
         int rows;
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         switch (uriType) {
-            case ALL_ITEMS:
-                rows = db.update(
-                        UserDetailsContentContract.UserDetails.TABLE_NAME,  // The table name
-                        values,                                 // The values to replace
-                        selection, selectionArgs);              // The WHERE clause
-                break;
             case ONE_ITEM:
-                String where = getOneItemClause(uri.getLastPathSegment());
-                if (!TextUtils.isEmpty(selection)) {
-                    where += " AND " + selection;
-                }
-                rows = db.update(
-                        UserDetailsContentContract.UserDetails.TABLE_NAME,  // The table name
-                        values,                                 // The values to replace
-                        where, selectionArgs);                  // The WHERE clause
+                DynamoDBMapper dbMapper = AWSProvider.getInstance().getDynamoDBMapper();
+                final UserDetailsDO updatedUserDetails = toUserDetailsDO(values);
+                dbMapper.save(updatedUserDetails);
+                rows = 1;
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
