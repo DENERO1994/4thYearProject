@@ -174,7 +174,7 @@ public class UserDetailsContentProvider extends ContentProvider {
                 notifyAllListeners(item);
                 return item;
             default:
-                throw new IllegalArgumentException("Unsupported URI: " + uri)
+                throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
     }
 
@@ -257,11 +257,9 @@ public class UserDetailsContentProvider extends ContentProvider {
 
     private UserDetailsDO toUserDetailsDO(ContentValues values) {
         final UserDetailsDO userDetails = new UserDetailsDO();
-        userDetails.setContent(values.getAsString(UserDetailsContentContract.UserDetails.CONTENT));
-        userDetails.setCreationDate(values.getAsDouble(UserDetailsContentContract.UserDetails.CREATED));
-        userDetails.setNoteId(values.getAsString(UserDetailsContentContract.UserDetails.NOTEID));
-        userDetails.setTitle(values.getAsString(UserDetailsContentContract.UserDetails.TITLE));
-        userDetails.setUpdatedDate(values.getAsDouble(UserDetailsContentContract.UserDetails.UPDATED));
+        userDetails.setFirstName(values.getAsString(UserDetailsContentContract.UserDetails.FIRSTNAME));
+        userDetails.setSurname(values.getAsString(UserDetailsContentContract.UserDetails.SURNAME));
+        userDetails.setUserDetailsId(values.getAsString(UserDetailsContentContract.UserDetails.USERDETAILSID));
         userDetails.setUserId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
         return userDetails;
     }
@@ -270,16 +268,12 @@ public class UserDetailsContentProvider extends ContentProvider {
         String[] fields = UserDetailsContentContract.UserDetails.PROJECTION_ALL;
         Object[] r = new Object[fields.length];
         for (int i = 0 ; i < fields.length ; i++) {
-            if (fields[i].equals(UserDetailsContentContract.UserDetails.CONTENT)) {
-                r[i] = userDetails.getContent();
-            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.CREATED)) {
-                r[i] = userDetails.getCreationDate();
-            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.NOTEID)) {
-                r[i] = userDetails.getNoteId();
-            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.TITLE)) {
-                r[i] = userDetails.getTitle();
-            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.UPDATED)) {
-                r[i] = userDetails.getUpdatedDate();
+            if (fields[i].equals(UserDetailsContentContract.UserDetails.FIRSTNAME)) {
+                r[i] = userDetails.getFirstName();
+            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.SURNAME)) {
+                r[i] = userDetails.getSurname();
+            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.USERDETAILSID)) {
+                r[i] = userDetails.getUserDetailsId();
             } else {
                 r[i] = new Integer(0);
             }
