@@ -18,7 +18,12 @@ public class AWSProvider {
     private static AWSProvider instance = null;
     private Context context;
     private AWSConfiguration awsConfiguration;
-    private PinpointManager pinpointManager;
+    private PinpointManager pinpointManager = null;
+
+    // Declare DynamoDBMapper and AmazonDynamoDBClient private variables
+    // to support data access methods
+    private AmazonDynamoDBClient dbClient = null;
+    private DynamoDBMapper dbMapper = null;
 
     public static AWSProvider getInstance() {
         return instance;
