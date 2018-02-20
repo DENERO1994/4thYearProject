@@ -16,6 +16,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.fourthyearproject.robsrecipes.AWSProvider;
+
 import java.util.Locale;
 
 /**
@@ -244,5 +246,37 @@ public class UserDetailsContentProvider extends ContentProvider {
 
     private String getOneItemClause(String id) {
         return String.format("%s = \"%s\"", UserDetailsContentContract.UserDetails.USERDETAILSID, id);
+    }
+
+    private UserDetailsDO toUserDetailsDO(ContentValues values) {
+        final UserDetailsDO userDetails = new UserDetailsDO();
+        userDetails.setContent(values.getAsString(UserDetailsContentContract.UserDetails.CONTENT));
+        userDetails.setCreationDate(values.getAsDouble(UserDetailsContentContract.UserDetails.CREATED));
+        userDetails.setNoteId(values.getAsString(UserDetailsContentContract.UserDetails.NOTEID));
+        userDetails.setTitle(values.getAsString(UserDetailsContentContract.UserDetails.TITLE));
+        userDetails.setUpdatedDate(values.getAsDouble(UserDetailsContentContract.UserDetails.UPDATED));
+        userDetails.setUserId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
+        return userDetails;
+    }
+
+    private Object[] fromUserDetailsDO(UserDetailsDO userDetails) {
+        String[] fields = UserDetailsContentContract.UserDetails.PROJECTION_ALL;
+        Object[] r = new Object[fields.length];
+        for (int i = 0 ; i < fields.length ; i++) {
+            if (fields[i].equals(UserDetailsContentContract.UserDetails.CONTENT)) {
+                r[i] = userDetails.getContent();
+            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.CREATED)) {
+                r[i] = userDetails.getCreationDate();
+            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.NOTEID)) {
+                r[i] = userDetails.getNoteId();
+            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.TITLE)) {
+                r[i] = userDetails.getTitle();
+            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.UPDATED)) {
+                r[i] = userDetails.getUpdatedDate();
+            } else {
+                r[i] = new Integer(0);
+            }
+        }
+        return r;
     }
 }
