@@ -1,5 +1,6 @@
 package com.fourthyearproject.robsrecipes.data;
 
+import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.support.annotation.Nullable;
 
@@ -17,8 +18,11 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBQueryExpression;
 import com.fourthyearproject.robsrecipes.AWSProvider;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -87,24 +91,42 @@ public class UserDetailsContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
         int uriType = sUriMatcher.match(uri);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+
+        DynamoDBMapper dbMapper = AWSProvider.getInstance().getDynamoDBMapper();
+        MatrixCursor cursor = new MatrixCursor(UserDetailsContentContract.UserDetails.PROJECTION_ALL);
+        String userId = AWSProvider.getInstance().getIdentityManager().getCachedUserID();
 
         switch (uriType) {
             case ALL_ITEMS:
-                queryBuilder.setTables(UserDetailsContentContract.UserDetails.TABLE_NAME);
-                if (TextUtils.isEmpty(sortOrder)) {
-                    sortOrder = UserDetailsContentContract.UserDetails.SORT_ORDER_DEFAULT;
+                // In this (simplified) version of a content provider, we only allow searching
+                // for all records that the user owns.  The first step to this is establishing
+                // a template record that has the partition key pre-populated.
+                UserDetailsDO template = new UserDetailsDO();
+                template.setUserId(userId);
+                // Now create a query expression that is based on the template record.
+                DynamoDBQueryExpression<UserDetailsDO> queryExpression;
+                queryExpression = new DynamoDBQueryExpression<UserDetailsDO>()
+                        .withHashKeyValues(template);
+                // Finally, do the query with that query expression.
+                List<UserDetailsDO> result = dbMapper.query(UserDetailsDO.class, queryExpression);
+                Iterator<UserDetailsDO> iterator = result.iterator();
+                while (iterator.hasNext()) {
+                    final UserDetailsDO userDetails = iterator.next();
+                    Object[] columnValues = fromUserDetailsDO(userDetails);
+                    cursor.addRow(columnValues);
                 }
                 break;
             case ONE_ITEM:
-                String where = getOneItemClause(uri.getLastPathSegment());
-                queryBuilder.setTables(UserDetailsContentContract.UserDetails.TABLE_NAME);
-                queryBuilder.appendWhere(where);
+                // In this (simplified) version of a content provider, we only allow searching
+                // for the specific record that was requested
+                final UserDetailsDO userDetails = dbMapper.load(UserDetailsDO.class, userId, uri.getLastPathSegment());
+                if (userDetails != null) {
+                    Object[] columnValues = fromUserDetailsDO(userDetails);
+                    cursor.addRow(columnValues);
+                }
                 break;
         }
 
-        Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
