@@ -19,9 +19,6 @@ import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 import com.fourthyearproject.robsrecipes.data.UserDetails;
 import com.fourthyearproject.robsrecipes.data.UserDetailsContentContract;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
 /**
  * A fragment representing a single Note detail screen.
  * This fragment is either contained in a {@link}
@@ -54,8 +51,8 @@ public class UserDetailsFragment extends Fragment {
     /**
      * The component bindings
      */
-    EditText editTitle;
-    EditText editContent;
+    EditText editFirstName;
+    EditText editSurname;
 
     /**
      * The timer for saving the record back to SQL
@@ -110,8 +107,8 @@ public class UserDetailsFragment extends Fragment {
                     mItem = UserDetails.fromCursor(cursor);
                     isUpdate = true;
 
-                    editTitle.setText(mItem.getFirstName());
-                    editContent.setText(mItem.getSurname());
+                    editFirstName.setText(mItem.getFirstName());
+                    editSurname.setText(mItem.getSurname());
                 }
             };
             queryHandler.startQuery(QUERY_TOKEN, null, itemUri, UserDetailsContentContract.UserDetails.PROJECTION_ALL, null, null, null);
@@ -142,12 +139,12 @@ public class UserDetailsFragment extends Fragment {
     private void saveData() {
         // Save the edited text back to the item.
         boolean isUpdated = false;
-        if (!mItem.getFirstName().equals(editTitle.getText().toString().trim())) {
-            mItem.getSurname().equals(editTitle.getText().toString().trim());
+        if (!mItem.getFirstName().equals(editFirstName.getText().toString().trim())) {
+            mItem.getSurname().equals(editFirstName.getText().toString().trim());
             isUpdated = true;
         }
-        if (!mItem.getFirstName().equals(editContent.getText().toString().trim())) {
-            mItem.getSurname().equals(editContent.getText().toString().trim());
+        if (!mItem.getFirstName().equals(editSurname.getText().toString().trim())) {
+            mItem.getSurname().equals(editSurname.getText().toString().trim());
             isUpdated = true;
         }
 
@@ -160,13 +157,13 @@ public class UserDetailsFragment extends Fragment {
                 @Override
                 protected void onInsertComplete(int token, Object cookie, Uri uri) {
                     super.onInsertComplete(token, cookie, uri);
-                    Log.d("NoteDetailFragment", "insert completed");
+                    Log.d("UserDetailsFragment", "insert completed");
                 }
 
                 @Override
                 protected void onUpdateComplete(int token, Object cookie, int result) {
                     super.onUpdateComplete(token, cookie, result);
-                    Log.d("NoteDetailFragment", "update completed");
+                    Log.d("UserDetailsFragment", "update completed");
                 }
             };
             if (isUpdate) {
@@ -179,8 +176,8 @@ public class UserDetailsFragment extends Fragment {
                 final AnalyticsClient mgr = AWSProvider.getInstance()
                         .getPinpointManager()
                         .getAnalyticsClient();
-                final AnalyticsEvent evt = mgr.createEvent("AddNote")
-                        .withAttribute("noteId", mItem.getUserDetailsId());
+                final AnalyticsEvent evt = mgr.createEvent("AddDetails")
+                        .withAttribute("userDetailsId", mItem.getUserDetailsId());
                 mgr.recordEvent(evt);
                 mgr.submitEvents();
             }
@@ -201,11 +198,11 @@ public class UserDetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.user_details, container, false);
 
         // Update the text in the editor
-        editTitle = (EditText) rootView.findViewById(R.id.edit_first_name);
-        editContent = (EditText) rootView.findViewById(R.id.edit_surname);
+        editFirstName = (EditText) rootView.findViewById(R.id.edit_first_name);
+        editSurname = (EditText) rootView.findViewById(R.id.edit_surname);
 
-        editTitle.setText(mItem.getFirstName());
-        editContent.setText(mItem.getSurname());
+        editFirstName.setText(mItem.getFirstName());
+        editSurname.setText(mItem.getSurname());
 
         return rootView;
     }
