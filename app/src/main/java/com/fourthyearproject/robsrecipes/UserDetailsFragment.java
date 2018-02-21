@@ -154,11 +154,11 @@ public class UserDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Get a reference to the root view
-        View rootView = inflater.inflate(R.layout.note_detail, container, false);
+        View rootView = inflater.inflate(R.layout.user_details, container, false);
 
         // Update the text in the editor
-        editTitle = (EditText) rootView.findViewById(R.id.edit_title);
-        editContent = (EditText) rootView.findViewById(R.id.edit_content);
+        editTitle = (EditText) rootView.findViewById(R.id.edit_first_name);
+        editContent = (EditText) rootView.findViewById(R.id.edit_surname);
 
         editTitle.setText(mItem.getFirstName());
         editContent.setText(mItem.getSurname());
