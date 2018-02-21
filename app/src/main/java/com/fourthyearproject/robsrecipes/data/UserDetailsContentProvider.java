@@ -190,7 +190,7 @@ public class UserDetailsContentProvider extends ContentProvider {
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
         int uriType = sUriMatcher.match(uri);
         int rows;
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
         switch (uriType) {
             case ONE_ITEM:
                 DynamoDBMapper dbMapper = AWSProvider.getInstance().getDynamoDBMapper();
@@ -223,7 +223,7 @@ public class UserDetailsContentProvider extends ContentProvider {
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         int uriType = sUriMatcher.match(uri);
         int rows;
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
         switch (uriType) {
             case ONE_ITEM:
                 DynamoDBMapper dbMapper = AWSProvider.getInstance().getDynamoDBMapper();
@@ -252,7 +252,7 @@ public class UserDetailsContentProvider extends ContentProvider {
     }
 
     private String getOneItemClause(String id) {
-        return String.format("%s = \"%s\"", UserDetailsContentContract.UserDetails.USERDETAILSID, id);
+        return String.format("%s = \"%s\"", UserDetailsContentContract.UserDetails._ID, id);
     }
 
     private UserDetailsDO toUserDetailsDO(ContentValues values) {

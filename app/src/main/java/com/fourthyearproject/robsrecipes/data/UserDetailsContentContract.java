@@ -28,7 +28,7 @@ public class UserDetailsContentContract {
         /**
          * The Table Name
          */
-        public static final String TABLE_NAME = "notes";
+        public static final String TABLE_NAME = "userDetails";
 
         /**
          * The internal ID
@@ -53,7 +53,7 @@ public class UserDetailsContentContract {
         /**
          * The directory base-path
          */
-        public static final String DIR_BASEPATH = "notes";
+        public static final String DIR_BASEPATH = "userDetails";
 
         /**
          * The items base-path
