@@ -3,6 +3,8 @@ package com.fourthyearproject.robsrecipes.data;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.fourthyearproject.robsrecipes.AWSProvider;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -77,7 +79,7 @@ public class UserDetails {
      * Create a new blank note
      */
     public UserDetails() {
-        setUserDetailsId(UUID.randomUUID().toString());
+        setUserDetailsId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
         setFirstName("");
         setSurname("");
     }
