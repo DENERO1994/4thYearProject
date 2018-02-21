@@ -1,5 +1,6 @@
 package com.fourthyearproject.robsrecipes;
 
+import android.content.AsyncQueryHandler;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.content.ContentResolver;
@@ -7,11 +8,14 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsClient;
+import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 import com.fourthyearproject.robsrecipes.data.UserDetails;
 import com.fourthyearproject.robsrecipes.data.UserDetailsContentContract;
 
@@ -76,6 +80,11 @@ public class UserDetailsFragment extends Fragment {
      * Lifecycle event handler - called when the fragment is created.
      * @param savedInstanceState the saved state
      */
+    // Constants used for async data operations
+    private static final int QUERY_TOKEN = 1001;
+    private static final int UPDATE_TOKEN = 1002;
+    private static final int INSERT_TOKEN = 1003;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,17 +95,29 @@ public class UserDetailsFragment extends Fragment {
         // Unbundle the arguments if any.  If there is an argument, load the data from
         // the content resolver aka the content provider.
         Bundle arguments = getArguments();
+        mItem = new UserDetails();
         if (arguments != null && arguments.containsKey(ARG_ITEM_ID)) {
             String itemId = getArguments().getString(ARG_ITEM_ID);
             itemUri = UserDetailsContentContract.UserDetails.uriBuilder(itemId);
-            Cursor data = contentResolver.query(itemUri, UserDetailsContentContract.UserDetails.PROJECTION_ALL, null, null, null);
-            if (data != null) {
-                data.moveToFirst();
-                mItem = UserDetails.fromCursor(data);
-                isUpdate = true;
-            }
+
+
+            // Replace local cursor methods with async query handling
+            AsyncQueryHandler queryHandler = new AsyncQueryHandler(contentResolver) {
+                @Override
+                protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
+                    super.onQueryComplete(token, cookie, cursor);
+                    cursor.moveToFirst();
+                    mItem = UserDetails.fromCursor(cursor);
+                    isUpdate = true;
+
+                    editTitle.setText(mItem.getFirstName());
+                    editContent.setText(mItem.getSurname());
+                }
+            };
+            queryHandler.startQuery(QUERY_TOKEN, null, itemUri, UserDetailsContentContract.UserDetails.PROJECTION_ALL, null, null, null);
+
+
         } else {
-            mItem = new UserDetails();
             isUpdate = false;
         }
 
@@ -122,23 +143,46 @@ public class UserDetailsFragment extends Fragment {
         // Save the edited text back to the item.
         boolean isUpdated = false;
         if (!mItem.getFirstName().equals(editTitle.getText().toString().trim())) {
-            mItem.setFirstName(editTitle.getText().toString().trim());
+            mItem.getSurname().equals(editTitle.getText().toString().trim());
             isUpdated = true;
         }
-        if (!mItem.getSurname().equals(editContent.getText().toString().trim())) {
-            mItem.setSurname(editContent.getText().toString().trim());
+        if (!mItem.getFirstName().equals(editContent.getText().toString().trim())) {
+            mItem.getSurname().equals(editContent.getText().toString().trim());
             isUpdated = true;
         }
 
+        // Replace local cursor methods with an async query handler
         // Convert to ContentValues and store in the database.
         if (isUpdated) {
             ContentValues values = mItem.toContentValues();
+
+            AsyncQueryHandler queryHandler = new AsyncQueryHandler(contentResolver) {
+                @Override
+                protected void onInsertComplete(int token, Object cookie, Uri uri) {
+                    super.onInsertComplete(token, cookie, uri);
+                    Log.d("NoteDetailFragment", "insert completed");
+                }
+
+                @Override
+                protected void onUpdateComplete(int token, Object cookie, int result) {
+                    super.onUpdateComplete(token, cookie, result);
+                    Log.d("NoteDetailFragment", "update completed");
+                }
+            };
             if (isUpdate) {
-                contentResolver.update(itemUri, values, null, null);
+                queryHandler.startUpdate(UPDATE_TOKEN, null, itemUri, values, null, null);
             } else {
-                itemUri = contentResolver.insert(UserDetailsContentContract.UserDetails.CONTENT_URI, values);
+                queryHandler.startInsert(INSERT_TOKEN, null, UserDetailsContentContract.UserDetails.CONTENT_URI, values);
                 isUpdate = true;    // Anything from now on is an update
-                itemUri = UserDetailsContentContract.UserDetails.uriBuilder(mItem.getUserDetailsId());
+
+                // Send Custom Event to Amazon Pinpoint
+                final AnalyticsClient mgr = AWSProvider.getInstance()
+                        .getPinpointManager()
+                        .getAnalyticsClient();
+                final AnalyticsEvent evt = mgr.createEvent("AddNote")
+                        .withAttribute("noteId", mItem.getUserDetailsId());
+                mgr.recordEvent(evt);
+                mgr.submitEvents();
             }
         }
     }
