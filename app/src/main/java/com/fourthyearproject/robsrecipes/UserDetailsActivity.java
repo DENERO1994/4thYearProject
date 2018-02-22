@@ -7,14 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+/**
+ * An activity representing a single User profile details screen. This
+ * activity is only used narrow width devices. On tablet-size devices,
+ * details are presented side-by-side with a list of items
+ * in a { NoteListActivity}.
+ */
 public class UserDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar((Toolbar) findViewById(R.id.details_toolbar));
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -26,25 +31,25 @@ public class UserDetailsActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             Bundle extras = getIntent().getExtras();
             if (extras != null && extras.containsKey(UserDetailsFragment.ARG_ITEM_ID)) {
-                String userDetailsId = extras.getString(UserDetailsFragment.ARG_ITEM_ID);
-                arguments.putString(UserDetailsFragment.ARG_ITEM_ID, userDetailsId);
+                String userDetailId = extras.getString(UserDetailsFragment.ARG_ITEM_ID);
+                arguments.putString(UserDetailsFragment.ARG_ITEM_ID, userDetailId);
             }
             UserDetailsFragment fragment = new UserDetailsFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.user_detail_container, fragment)
+                    .add(R.id.user_details_container, fragment)
                     .commit();
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       // int id = item.getItemId();
-        //if (id == android.R.id.home) {
-          //  navigateUpTo(new Intent(this, UserDetailsActivity.class));
-            //return true;
-        //}
+//        int id = item.getItemId();
+//        if (id == android.R.id.home) {
+//            navigateUpTo(new Intent(this, NoteListActivity.class));
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 }

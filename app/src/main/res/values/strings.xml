@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RobsRecipes</string>
+    <string name="label_user_details">User Details</string>
 </resources>

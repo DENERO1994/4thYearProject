@@ -34,9 +34,10 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".UserDetailsActivity"
-            android:label="@string/title_user_details"
+            android:label="@string/label_user_details"
             android:parentActivityName=".UserDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
