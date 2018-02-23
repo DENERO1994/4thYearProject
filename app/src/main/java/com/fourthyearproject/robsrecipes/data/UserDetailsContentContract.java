@@ -68,7 +68,7 @@ public class UserDetailsContentContract {
                         + _ID + " INTEGER PRIMARY KEY, "
                         + USERDETAILSID + " TEXT UNIQUE NOT NULL, "
                         + FIRSTNAME + " TEXT NOT NULL DEFAULT '', "
-                        + SURNAME + " TEXT NOT NULL DEFAULT '', ";
+                        + SURNAME + " TEXT NOT NULL DEFAULT '') ";
 
         /**
          * The content URI for this table
