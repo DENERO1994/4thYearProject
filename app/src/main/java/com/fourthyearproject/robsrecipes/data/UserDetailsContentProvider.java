@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBQueryExpression;
@@ -131,6 +132,23 @@ public class UserDetailsContentProvider extends ContentProvider {
         return cursor;
     }
 
+    private Object[] fromUserDetailsDO(UserDetailsDO userDetails) {
+        String[] fields = UserDetailsContentContract.UserDetails.PROJECTION_ALL;
+        Object[] r = new Object[fields.length];
+        for (int i = 0 ; i < fields.length ; i++) {
+            if (fields[i].equals(UserDetailsContentContract.UserDetails.FIRSTNAME)) {
+                r[i] = userDetails.getFirstName();
+            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.SURNAME)) {
+                r[i] = userDetails.getSurname();
+            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.USERDETAILSID)) {
+                r[i] = userDetails.getUserDetailsId();
+            } else {
+                r[i] = new Integer(0);
+            }
+        }
+        return r;
+    }
+
     /**
      * The content provider must return the content type for its supported URIs.  The supported
      * URIs are defined in the UriMatcher and the types are stored in the NotesContentContract.
@@ -240,6 +258,15 @@ public class UserDetailsContentProvider extends ContentProvider {
         return rows;
     }
 
+    private UserDetailsDO toUserDetailsDO(ContentValues values) {
+        final UserDetailsDO userDetails = new UserDetailsDO();
+        userDetails.setFirstName(values.getAsString(UserDetailsContentContract.UserDetails.FIRSTNAME));
+        userDetails.setSurname(values.getAsString(UserDetailsContentContract.UserDetails.SURNAME));
+        userDetails.setUserDetailsId(values.getAsString(UserDetailsContentContract.UserDetails.USERDETAILSID));
+        userDetails.setUserId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
+        return userDetails;
+    }
+
     /**
      * Notify all listeners that the specified URI has changed
      * @param uri the URI that changed
@@ -253,31 +280,5 @@ public class UserDetailsContentProvider extends ContentProvider {
 
     private String getOneItemClause(String id) {
         return String.format("%s = \"%s\"", UserDetailsContentContract.UserDetails._ID, id);
-    }
-
-    private UserDetailsDO toUserDetailsDO(ContentValues values) {
-        final UserDetailsDO userDetails = new UserDetailsDO();
-        userDetails.setFirstName(values.getAsString(UserDetailsContentContract.UserDetails.FIRSTNAME));
-        userDetails.setSurname(values.getAsString(UserDetailsContentContract.UserDetails.SURNAME));
-        userDetails.setUserDetailsId(values.getAsString(UserDetailsContentContract.UserDetails.USERDETAILSID));
-        userDetails.setUserId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
-        return userDetails;
-    }
-
-    private Object[] fromUserDetailsDO(UserDetailsDO userDetails) {
-        String[] fields = UserDetailsContentContract.UserDetails.PROJECTION_ALL;
-        Object[] r = new Object[fields.length];
-        for (int i = 0 ; i < fields.length ; i++) {
-            if (fields[i].equals(UserDetailsContentContract.UserDetails.FIRSTNAME)) {
-                r[i] = userDetails.getFirstName();
-            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.SURNAME)) {
-                r[i] = userDetails.getSurname();
-            } else if (fields[i].equals(UserDetailsContentContract.UserDetails.USERDETAILSID)) {
-                r[i] = userDetails.getUserDetailsId();
-            } else {
-                r[i] = new Integer(0);
-            }
-        }
-        return r;
     }
 }
