@@ -80,7 +80,7 @@ public class UserDetails {
      * Create a new blank note
      */
     public UserDetails() {
-        setUserDetailsId(UUID.randomUUID().toString());
+        setUserDetailsId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
         setFirstName("");
         setSurname("");
     }

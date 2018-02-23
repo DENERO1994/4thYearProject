@@ -262,7 +262,7 @@ public class UserDetailsContentProvider extends ContentProvider {
         final UserDetailsDO userDetails = new UserDetailsDO();
         userDetails.setFirstName(values.getAsString(UserDetailsContentContract.UserDetails.FIRSTNAME));
         userDetails.setSurname(values.getAsString(UserDetailsContentContract.UserDetails.SURNAME));
-        userDetails.setUserDetailsId(values.getAsString(UserDetailsContentContract.UserDetails.USERDETAILSID));
+        userDetails.setUserDetailsId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
         userDetails.setUserId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
         return userDetails;
     }
