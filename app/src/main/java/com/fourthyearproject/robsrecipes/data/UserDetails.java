@@ -2,6 +2,7 @@ package com.fourthyearproject.robsrecipes.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.fourthyearproject.robsrecipes.AWSProvider;
 
@@ -79,7 +80,7 @@ public class UserDetails {
      * Create a new blank note
      */
     public UserDetails() {
-        setUserDetailsId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
+        setUserDetailsId(UUID.randomUUID().toString());
         setFirstName("");
         setSurname("");
     }
@@ -154,7 +155,7 @@ public class UserDetails {
      */
     @Override
     public String toString() {
-        return String.format("[note#%s] %s", userDetailsId, firstName);
+        return String.format("[userDetails#%s] %s", userDetailsId, firstName);
     }
 
     /**
