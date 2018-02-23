@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void editProfile(View view)
     {
-        Log.v(TAG, "got into edit method");
         Context context = view.getContext();
         Intent intent = new Intent(context, UserDetailsActivity.class);
         context.startActivity(intent);
