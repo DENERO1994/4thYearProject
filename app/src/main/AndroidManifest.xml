@@ -14,17 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <provider
-            android:name=".data.UserDetailsContentProvider"
-            android:authorities="com.fourthyearproject.robsrecipes.provider"
-            android:label="UserDetailsProvider"></provider>
         <activity
             android:name=".AuthenticatorActivity"
             android:label="Sign In"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -38,6 +33,10 @@
             android:parentActivityName=".UserDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <provider
+            android:name=".data.UserDetailsContentProvider"
+            android:authorities="com.fourthyearproject.robsrecipes.provider"
+            android:label="UserDetailsProvider"/>
     </application>
 
 </manifest>
