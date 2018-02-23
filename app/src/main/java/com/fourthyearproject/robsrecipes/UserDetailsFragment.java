@@ -7,6 +7,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -140,11 +141,11 @@ public class UserDetailsFragment extends Fragment {
         // Save the edited text back to the item.
         boolean isUpdated = false;
         if (!mItem.getFirstName().equals(editFirstName.getText().toString().trim())) {
-            mItem.getSurname().equals(editFirstName.getText().toString().trim());
+            mItem.setFirstName(editFirstName.getText().toString().trim());
             isUpdated = true;
         }
-        if (!mItem.getFirstName().equals(editSurname.getText().toString().trim())) {
-            mItem.getSurname().equals(editSurname.getText().toString().trim());
+        if (!mItem.getSurname().equals(editSurname.getText().toString().trim())) {
+            mItem.setSurname(editSurname.getText().toString().trim());
             isUpdated = true;
         }
 
@@ -170,7 +171,7 @@ public class UserDetailsFragment extends Fragment {
                 queryHandler.startUpdate(UPDATE_TOKEN, null, itemUri, values, null, null);
             } else {
                 queryHandler.startInsert(INSERT_TOKEN, null, UserDetailsContentContract.UserDetails.CONTENT_URI, values);
-                isUpdate = true;    // Anything from now on is an update
+                //isUpdate = true;    // Anything from now on is an update
 
                 // Send Custom Event to Amazon Pinpoint
                 final AnalyticsClient mgr = AWSProvider.getInstance()
