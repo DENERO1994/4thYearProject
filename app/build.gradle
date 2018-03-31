@@ -34,6 +34,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
     implementation 'joda-time:joda-time:2.9.9'
 
+    implementation 'me.dm7.barcodescanner:zxing:1.9'
+
     //AWS
     implementation 'com.amazonaws:aws-android-sdk-core:2.6.+'
     implementation 'com.amazonaws:aws-android-sdk-auth-core:2.6.+@aar'
