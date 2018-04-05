@@ -17,6 +17,7 @@ public class UserDetailsDO {
     private String _userId;
     private String _userDetailsId;
     private String _firstName;
+    private List<Inventory> _inventory;
     private String _surname;
 
     @DynamoDBHashKey(attributeName = "userId")
@@ -44,6 +45,14 @@ public class UserDetailsDO {
 
     public void setFirstName(final String _firstName) {
         this._firstName = _firstName;
+    }
+    @DynamoDBAttribute(attributeName = "inventory")
+    public List<Inventory> getInventory() {
+        return _inventory;
+    }
+
+    public void setInventory(final List<Inventory> _inventory) {
+        this._inventory = _inventory;
     }
     @DynamoDBAttribute(attributeName = "surname")
     public String getSurname() {

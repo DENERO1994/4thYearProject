@@ -16,15 +16,10 @@ public class MainActivity extends AppCompatActivity{
 
     private static final String TAG = "MyActivity";
 
-    Button click;
-    public static TextView data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        click = (Button) findViewById(R.id.fetchData);
-        data = (TextView) findViewById(R.id.dataView);
     }
 
     public void editProfile(View view)
@@ -41,9 +36,10 @@ public class MainActivity extends AppCompatActivity{
         context.startActivity(intent);
     }
 
-    public void getData(View view)
+    public void listIngredients(View view)
     {
-        FetchData process = new FetchData();
-        process.execute();
+        Context context = view.getContext();
+        Intent intent = new Intent(context, InventoryActivity.class);
+        context.startActivity(intent);
     }
 }

@@ -36,14 +36,16 @@
             android:name=".UserDetailsActivity"
             android:label="@string/label_user_details"
             android:parentActivityName=".UserDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <provider
             android:name=".data.UserDetailsContentProvider"
             android:authorities="com.fourthyearproject.robsrecipes.provider"
             android:label="UserDetailsProvider" />
 
-        <activity android:name=".ScannerActivity"></activity>
+        <activity android:name=".ScannerActivity" />
+        <activity android:name=".InventoryActivity" />
+        <activity android:name=".IngredientDetailsActivity"></activity>
     </application>
 
 </manifest>
