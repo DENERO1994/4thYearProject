@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">RobsRecipes</string>
     <string name="label_user_details">User Details</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_log_out">Log Out</string>
+
+    <string name="login_success">Login successful</string>
+    <string name="my_inventory">My Inventory</string>
+    <string name="profile">My Profile</string>
+    <string name="scan_item">Scan Ingredient</string>
+    <string name="search">Search Ingredients</string>
+    <string name="recipes">Find Recipes</string>
+
 </resources>

@@ -136,6 +136,9 @@ public class UserDetailsContentProvider extends ContentProvider {
         String[] fields = UserDetailsContentContract.UserDetails.PROJECTION_ALL;
         Object[] r = new Object[fields.length];
         for (int i = 0 ; i < fields.length ; i++) {
+//            if(fields[i].equals(UserDetailsContentContract.UserDetails.INVENTORY)) {
+//                r[i] = userDetails.getIngredients();
+//            } else
             if (fields[i].equals(UserDetailsContentContract.UserDetails.FIRSTNAME)) {
                 r[i] = userDetails.getFirstName();
             } else if (fields[i].equals(UserDetailsContentContract.UserDetails.SURNAME)) {

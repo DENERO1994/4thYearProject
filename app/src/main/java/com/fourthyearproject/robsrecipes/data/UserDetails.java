@@ -16,8 +16,8 @@ import java.util.UUID;
  *
  * _id      The internal ID - only relevant to the current device
  * userDetailsId   The global ID - should be unique globally
- * firstName    The note title
- * surname  The note content
+ * firstName    The users first name
+ * surname  The users surname
  */
 public class UserDetails {
     private long id = -1;
@@ -26,12 +26,12 @@ public class UserDetails {
     private String surname;
 
     /**
-     * Create a new Note from a Cursor object.  This version provides default values for
+     * Create a new User from a Cursor object.  This version provides default values for
      * any information that is missing; hopefully, this ensures that the method never crashes
      * the app.
      *
      * @param c the cursor to read from - it must be set to the right position.
-     * @return the note stored in the cursor.
+     * @return the user stored in the cursor.
      */
     public static UserDetails fromCursor(Cursor c) {
         UserDetails userDetails = new UserDetails();
@@ -77,7 +77,7 @@ public class UserDetails {
     }
 
     /**
-     * Create a new blank note
+     * Create a new blank user
      */
     public UserDetails() {
         setUserDetailsId(AWSProvider.getInstance().getIdentityManager().getCachedUserID());
@@ -98,34 +98,34 @@ public class UserDetails {
     public void setId(long id) { this.id = id;}
 
     /**
-     * Returns the noteId
-     * @return the note ID
+     * Returns the userDetailsId
+     * @return the userDetails ID
      */
     public String getUserDetailsId() { return userDetailsId; }
 
     /**
-     * Sets the noteId
-     * @param userDetailsId the new note ID
+     * Sets the userDetailsId
+     * @param userDetailsId the new userDetails ID
      */
     public void setUserDetailsId(String userDetailsId) {
         this.userDetailsId = userDetailsId;
     }
 
     /**
-     * Returns the title
-     * @return the title
+     * Returns the first name
+     * @return the first name
      */
     public String getFirstName() { return firstName; }
 
     /**
-     * Sets the title
-     * @param firstName the new title
+     * Sets the first name
+     * @param firstName the new first name
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    /**
+    /**a
      * Returns the note content
      * @return the note content
      */

@@ -2,14 +2,10 @@ package com.fourthyearproject.robsrecipes.data;
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexHashKey;
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBIndexRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBRangeKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @DynamoDBTable(tableName = "robsrecipes-mobilehub-9460472-userDetails")
 
@@ -17,7 +13,7 @@ public class UserDetailsDO {
     private String _userId;
     private String _userDetailsId;
     private String _firstName;
-    private List<Inventory> _inventory;
+//    private List<Ingredient> _ingredients;
     private String _surname;
 
     @DynamoDBHashKey(attributeName = "userId")
@@ -46,14 +42,15 @@ public class UserDetailsDO {
     public void setFirstName(final String _firstName) {
         this._firstName = _firstName;
     }
-    @DynamoDBAttribute(attributeName = "inventory")
-    public List<Inventory> getInventory() {
-        return _inventory;
-    }
 
-    public void setInventory(final List<Inventory> _inventory) {
-        this._inventory = _inventory;
-    }
+//    @DynamoDBAttribute(attributeName = "inventory")
+//    public List<Ingredient> getIngredients() {
+//        return _ingredients;
+//    }
+//
+//    public void setIngredients(final List<Ingredient> _ingredients) {
+//        this._ingredients = _ingredients;
+//    }
     @DynamoDBAttribute(attributeName = "surname")
     public String getSurname() {
         return _surname;

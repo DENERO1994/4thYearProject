@@ -1,10 +1,9 @@
 package com.fourthyearproject.robsrecipes;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,6 +16,8 @@ import android.widget.Toast;
 import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import static android.Manifest.permission.CAMERA;
+
+import java.util.HashMap;
 
 public class ScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler{
 
@@ -50,36 +51,6 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
     }
 
-//    public void onRequestPermissionResult(int requestCode, String permission[], int grantResults[])
-//    {
-//        switch(requestCode) {
-//            case REQUEST_CAMERA:
-//                if (grantResults.length > 0) {
-//                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-//                    if (cameraAccepted) {
-//                        Toast.makeText(ScannerActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
-//                    } else {
-//                        Toast.makeText(ScannerActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                            if (shouldShowRequestPermissionRationale(CAMERA)) {
-//                                displayAlertMessage("You need to allow access for both permissions",
-//                                        new DialogInterface.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                                                    requestPermissions(new String[]{CAMERA}, REQUEST_CAMERA);
-//                                                }
-//                                            }
-//                                        });
-//                                return;
-//                            }
-//                        }
-//                    }
-//                }
-//                break;
-//        }
-//    }
-
     @Override
     public void onResume()
     {
@@ -111,30 +82,61 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
         scannerView.stopCamera();
     }
 
-//    public void displayAlertMessage(String message, DialogInterface.OnClickListener listener)
-//    {
-//        new AlertDialog.Builder(ScannerActivity.this)
-//                .setMessage(message)
-//                .setPositiveButton("OK", listener)
-//                .setNegativeButton("Cancel", null)
-//                .create()
-//                .show();
-//    }
-
     @Override
     public void handleResult(Result result)
     {
         final String scanResult = result.getText();
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Scan Result");
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                scannerView.resumeCameraPreview(ScannerActivity.this);
+        boolean found = false;
+
+        outerloop:
+        for (final HashMap<String, String> item : HomeActivity.listIngredients)
+        {
+            for (String key : item.keySet())
+            {
+                if(key.matches(DownloadIngredients.KEY_BARCODE))
+                {
+                    if(item.get(key).matches(scanResult)) {
+                        found = true;
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setTitle("Scan Result");
+                        builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Context context = scannerView.getContext();
+                                Intent intent = new Intent(context, IngredientDetailsActivity.class);
+                                intent.putExtra(DownloadIngredients.KEY_ID, item.get(DownloadIngredients.KEY_ID));
+                                intent.putExtra(DownloadIngredients.KEY_BRAND, item.get(DownloadIngredients.KEY_BRAND));
+                                intent.putExtra(DownloadIngredients.KEY_NAME, item.get(DownloadIngredients.KEY_NAME));
+                                intent.putExtra(DownloadIngredients.KEY_WEIGHT, item.get(DownloadIngredients.KEY_WEIGHT));
+                                intent.putExtra(DownloadIngredients.KEY_BARCODE, item.get(DownloadIngredients.KEY_BARCODE));
+                                intent.putExtra(DownloadIngredients.KEY_IMAGE, item.get(DownloadIngredients.KEY_IMAGE));
+                                context.startActivity(intent);
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                scannerView.resumeCameraPreview(ScannerActivity.this);
+                            }
+                        });
+                        builder.setMessage(item.get(DownloadIngredients.KEY_NAME));
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        break outerloop;
+                    }
+                    else
+                    {
+                        found = false;
+                        break;
+                    }
+                }
             }
-        });
-        builder.setMessage(scanResult);
-        AlertDialog alert = builder.create();
-        alert.show();
+        }
+
+        if(!found)
+        {
+            Toast.makeText(ScannerActivity.this, "Item not found", Toast.LENGTH_LONG).show();
+            scannerView.resumeCameraPreview(ScannerActivity.this);
+        }
     }
 }

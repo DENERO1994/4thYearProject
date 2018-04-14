@@ -1,20 +1,25 @@
 package com.fourthyearproject.robsrecipes.data;
 
-import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBDocument;
-
 import java.io.Serializable;
 
-/**
- * Created by robfi on 01/04/2018.
- */
-@DynamoDBDocument
-public class Inventory implements Serializable{
+//Class representing the Ingredient objects
+
+public class Ingredient implements Serializable{
 
     private String id;
     private String brand;
     private String name;
     private int weight;
     private String barcode;
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getId(){
         return id;
@@ -48,7 +53,7 @@ public class Inventory implements Serializable{
         this.weight = weight;
     }
 
-    public String getBarcoded(){
+    public String getBarcode(){
         return barcode;
     }
 

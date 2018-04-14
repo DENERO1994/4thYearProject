@@ -7,6 +7,11 @@
     android:layout_height="match_parent"
     tools:context="com.fourthyearproject.robsrecipes.IngredientDetailsActivity">
 
+    <ImageView
+        android:id="@+id/itemImage"
+        android:layout_width="match_parent"
+        android:layout_height="119dp" />
+
     <TextView
         android:id="@+id/brand"
         android:layout_width="match_parent"
@@ -26,5 +31,11 @@
         android:id="@+id/barcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/addItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add to Inventory" />
 
 </LinearLayout>

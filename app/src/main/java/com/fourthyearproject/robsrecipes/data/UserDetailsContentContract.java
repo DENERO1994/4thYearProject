@@ -40,6 +40,11 @@ public class UserDetailsContentContract {
          */
         public static final String USERDETAILSID = "userDetailsId";
 
+//        /**
+//         * The inventory field
+//         */
+//        public static final String INVENTORY = "inventory";
+
         /**
          * The title field
          */
@@ -67,6 +72,7 @@ public class UserDetailsContentContract {
                 "CREATE TABLE " + TABLE_NAME + "("
                         + _ID + " INTEGER PRIMARY KEY, "
                         + USERDETAILSID + " TEXT UNIQUE NOT NULL, "
+//                        + INVENTORY + "TEXT NOT NULL DEFAULT"
                         + FIRSTNAME + " TEXT NOT NULL DEFAULT '', "
                         + SURNAME + " TEXT NOT NULL DEFAULT '') ";
 
@@ -94,6 +100,7 @@ public class UserDetailsContentContract {
         public static final String[] PROJECTION_ALL = {
                 _ID,
                 USERDETAILSID,
+//                INVENTORY,
                 FIRSTNAME,
                 SURNAME
         };
