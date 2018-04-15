@@ -126,14 +126,14 @@ public class UserDetails {
     }
 
     /**a
-     * Returns the note content
-     * @return the note content
+     * Returns the surname
+     * @return the surname
      */
     public String getSurname() { return surname; }
 
     /**
-     * Sets the note content
-     * @param surname the note content
+     * Sets the surname
+     * @param surname the surname
      */
     public void setSurname(String surname) {
         this.surname = surname;
@@ -141,8 +141,8 @@ public class UserDetails {
 
     /**
      * Updates the note
-     * @param firstName the new title
-     * @param surname the new content
+     * @param firstName the new first name
+     * @param surname the new surname
      */
     public void updateUserDetails(String firstName, String surname) {
         setFirstName(firstName);

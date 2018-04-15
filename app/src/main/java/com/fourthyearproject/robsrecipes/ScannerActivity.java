@@ -98,8 +98,8 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                     if(item.get(key).matches(scanResult)) {
                         found = true;
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setTitle("Scan Result");
-                        builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
+                        builder.setTitle(getResources().getString(R.string.pop_up_title));
+                        builder.setPositiveButton(getResources().getString(R.string.view), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Context context = scannerView.getContext();
@@ -113,7 +113,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
                                 context.startActivity(intent);
                             }
                         });
-                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 scannerView.resumeCameraPreview(ScannerActivity.this);
@@ -135,7 +135,7 @@ public class ScannerActivity extends AppCompatActivity implements ZXingScannerVi
 
         if(!found)
         {
-            Toast.makeText(ScannerActivity.this, "Item not found", Toast.LENGTH_LONG).show();
+            Toast.makeText(ScannerActivity.this, getResources().getString(R.string.item_not_found), Toast.LENGTH_LONG).show();
             scannerView.resumeCameraPreview(ScannerActivity.this);
         }
     }

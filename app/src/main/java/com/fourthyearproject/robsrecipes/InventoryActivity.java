@@ -18,10 +18,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+//Activity that displays the list of ingredients the user has stored in their inventory
+
 public class InventoryActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     private ListView listView;
     ListAdapter listAdapter;
+    TextView text;
 
     static List<HashMap<String, String>> inventoryList = new ArrayList<>();
 
@@ -32,15 +35,22 @@ public class InventoryActivity extends AppCompatActivity implements AdapterView.
 
         listView = (ListView) findViewById(R.id.list_view);
         listView.setOnItemClickListener(this);
+        text = (TextView) findViewById(R.id.textView);
 
-        listAdapter = new SimpleAdapter(
-                InventoryActivity.this,
-                inventoryList,
-                R.layout.list_item,
-                new String []{"brand", "name"},
-                new int []{R.id.brand, R.id.name}
-        );
-        listView.setAdapter(listAdapter);
+        if(!InventoryActivity.inventoryList.isEmpty())
+        {
+            text.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+
+            listAdapter = new SimpleAdapter(
+                    InventoryActivity.this,
+                    inventoryList,
+                    R.layout.list_item,
+                    new String []{"brand", "name"},
+                    new int []{R.id.brand, R.id.name}
+            );
+            listView.setAdapter(listAdapter);
+        }
     }
 
     @Override

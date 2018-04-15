@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 
 import java.io.InputStream;
 
+//Async task to download the images associated with each ingredient.
+
 public class DownloadImage extends AsyncTask<String, Void, Bitmap>{
 
     public AsyncResponse delegate = null;
@@ -14,6 +16,7 @@ public class DownloadImage extends AsyncTask<String, Void, Bitmap>{
     protected Bitmap doInBackground(String... strings) {
         String image = strings[0];
 
+        //Bitmap is what the image is stored in
         Bitmap bitmap = null;
         try {
             InputStream input = new java.net.URL(image).openStream();

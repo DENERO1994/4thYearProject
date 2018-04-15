@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.fourthyearproject.robsrecipes.data.UserDetails;
+import com.fourthyearproject.robsrecipes.data.UserDetailsDO;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

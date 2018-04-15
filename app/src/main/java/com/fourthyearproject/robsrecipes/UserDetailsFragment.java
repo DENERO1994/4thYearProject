@@ -21,7 +21,7 @@ import com.fourthyearproject.robsrecipes.data.UserDetails;
 import com.fourthyearproject.robsrecipes.data.UserDetailsContentContract;
 
 /**
- * A fragment representing a single Note detail screen.
+ * A fragment representing a single User detail screen.
  * This fragment is either contained in a {@link}
  * in two-pane mode (on tablets) or a {@link }
  * on handsets.
@@ -186,7 +186,7 @@ public class UserDetailsFragment extends Fragment {
     }
 
     /**
-     * Returns the current note.
+     * Returns the current user.
      * @return the current data
      */
     public UserDetails getUserDetails() {

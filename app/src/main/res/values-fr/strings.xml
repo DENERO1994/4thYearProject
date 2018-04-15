@@ -1,0 +1,32 @@
+<resources>
+    <string name="label_user_details">Dètails de L\'utilisateur</string>
+    <string name="navigation_drawer_open">Ouvrir Le Tiroir de Navigation</string>
+    <string name="navigation_drawer_close">Fermer Le Tiroir de Navigation</string>
+    <string name="action_log_out">Deconnexion</string>
+    <string name="login_success">Connexion Reussie</string>
+    <string name="my_inventory">Mon Inventaire</string>
+    <string name="my_inventory2">Mon Inventaire: </string>
+    <string name="profile">Mon Profil</string>
+    <string name="scan_item">Analyser le Ingredients</string>
+    <string name="search">Rechercher de Ingredients</string>
+    <string name="recipes">Trouver des Recettes</string>
+    <string name="my_recipes">Mon Recettes: </string>
+    <string name="sort_by_name">Trier par Nom</string>
+    <string name="sort_by_brand">Trier par Marque</string>
+    <string name="brand">"Marque: "</string>
+    <string name="name">"Prénom: "</string>
+    <string name="weight">"Poids: "</string>
+    <string name="barcode">"Code à Barre: "</string>
+    <string name="add_to_inventory">Ajouter à mon inventaire</string>
+    <string name="pop_up_title">Objet trouvé</string>
+    <string name="view">Vue</string>
+    <string name="cancel">Annuler</string>
+    <string name="item_not_found">Objet non-trouvé</string>
+    <string name="first_name">Prénom</string>
+    <string name="surname">Nom de famille</string>
+    <string name="ingredient_details">Détails des ingrédients</string>
+    <string name="app_name">Chercheur de Recettes</string>
+    <string name="welcome">Bienvenue dans l\'application de recherche de recettes! Ajoutez des ingrédients à votre inventaire pour commencer</string>
+    <string name="empty_inventory">Ajoutez des articles à votre inventaire et ils apparaîtront ici!</string>
+    <string name="sign_out">Déconnecté avec succès!</string>
+</resources>

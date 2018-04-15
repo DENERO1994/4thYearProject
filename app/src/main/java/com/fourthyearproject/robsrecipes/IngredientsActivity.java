@@ -19,18 +19,25 @@ import java.util.HashMap;
 public class IngredientsActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     private ListView listView;
+    //spinner to sort ingredients
     private Spinner spinner;
     ListAdapter listAdapter;
-    private static final String[]choices = {"Sort by Name", "Sort by Brand"};
+
+    //Choices for the sort spinner
+    private String[]choices = new String[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients);
 
+        choices[0] = getResources().getString(R.string.sort_by_name);
+        choices[1] = getResources().getString(R.string.sort_by_brand);
+
         listView = (ListView) findViewById(R.id.list_view);
         listView.setOnItemClickListener(this);
 
+        //Adapter to display the ingredients in a list view
         listAdapter = new SimpleAdapter(
                 IngredientsActivity.this,
                 HomeActivity.listIngredients,
@@ -41,6 +48,8 @@ public class IngredientsActivity extends AppCompatActivity implements AdapterVie
         listView.setAdapter(listAdapter);
 
         spinner = (Spinner) findViewById(R.id.spinner);
+
+        //Adapter to handle the spinner selection
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(IngredientsActivity.this,
                 android.R.layout.simple_spinner_item, choices);
 
@@ -49,6 +58,7 @@ public class IngredientsActivity extends AppCompatActivity implements AdapterVie
         spinner.setOnItemSelectedListener(this);
     }
 
+    //Method that handles when a list view item is selected, goes to the ingredient details page for that selection
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Context context = view.getContext();
@@ -62,6 +72,7 @@ public class IngredientsActivity extends AppCompatActivity implements AdapterVie
         context.startActivity(intent);
     }
 
+    //Handles the selection of the spinner and sorts the list view by name or by brand in ascending order
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch(position) {
@@ -108,6 +119,7 @@ public class IngredientsActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
+    //Override method must be implemented
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 

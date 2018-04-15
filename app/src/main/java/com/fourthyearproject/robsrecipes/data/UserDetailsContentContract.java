@@ -11,18 +11,18 @@ import android.provider.BaseColumns;
  */
 public class UserDetailsContentContract {
     /**
-     * The authority of the notes content provider - this must match the authority
+     * The authority of the user details content provider - this must match the authority
      * specified in the AndroidManifest.xml provider section
      */
     public static final String AUTHORITY = "com.fourthyearproject.robsrecipes.provider";
 
     /**
-     * The content URI for the top-level notes authority
+     * The content URI for the top-level user details authority
      */
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
     /**
-     * Constants for the Notes table
+     * Constants for the UserDetails table
      */
     public static final class UserDetails implements BaseColumns {
         /**
@@ -36,7 +36,7 @@ public class UserDetailsContentContract {
         public static final String _ID = "id";
 
         /**
-         * The noteId field
+         * The userDetailsId field
          */
         public static final String USERDETAILSID = "userDetailsId";
 
@@ -46,12 +46,12 @@ public class UserDetailsContentContract {
 //        public static final String INVENTORY = "inventory";
 
         /**
-         * The title field
+         * The first name field
          */
         public static final String FIRSTNAME = "firstName";
 
         /**
-         * The content field
+         * The surname field
          */
         public static final String SURNAME = "surname";
 
@@ -111,9 +111,9 @@ public class UserDetailsContentContract {
         public static final String SORT_ORDER_DEFAULT = FIRSTNAME + " ASC";
 
         /**
-         * Build a URI for the provided note
-         * @param userDetailsId the ID of the provided note
-         * @return the URI of the provided note
+         * Build a URI for the provided user details
+         * @param userDetailsId the ID of the provided user
+         * @return the URI of the provided user
          */
         public static Uri uriBuilder(String userDetailsId) {
             Uri item = new Uri.Builder()

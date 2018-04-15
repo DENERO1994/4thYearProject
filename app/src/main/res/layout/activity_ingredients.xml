@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.fourthyearproject.robsrecipes.IngredientsActivity">
 
-
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"

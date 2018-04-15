@@ -36,10 +36,10 @@ public class IngredientDetailsActivity extends AppCompatActivity implements Down
 
         if(intent != null)
         {
-            brand.setText(intent.getStringExtra(DownloadIngredients.KEY_BRAND));
-            name.setText(intent.getStringExtra(DownloadIngredients.KEY_NAME));
-            weight.setText(intent.getStringExtra(DownloadIngredients.KEY_WEIGHT));
-            barcode.setText(intent.getStringExtra(DownloadIngredients.KEY_BARCODE));
+            brand.append(intent.getStringExtra(DownloadIngredients.KEY_BRAND));
+            name.append(intent.getStringExtra(DownloadIngredients.KEY_NAME));
+            weight.append(intent.getStringExtra(DownloadIngredients.KEY_WEIGHT));
+            barcode.append(intent.getStringExtra(DownloadIngredients.KEY_BARCODE));
 
             ingredientHash.put(DownloadIngredients.KEY_ID, intent.getStringExtra(DownloadIngredients.KEY_ID));
             ingredientHash.put(DownloadIngredients.KEY_BRAND, intent.getStringExtra(DownloadIngredients.KEY_BRAND));

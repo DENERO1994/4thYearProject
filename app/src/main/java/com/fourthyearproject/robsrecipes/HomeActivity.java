@@ -11,7 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.amazonaws.mobile.auth.core.IdentityManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +26,11 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DownloadIngredients.AsyncResponse, DownloadRecipes.AsyncResponse {
+
+    final IdentityManager identityManager = AWSProvider.getInstance().getIdentityManager();
+
+    TextView myInventory;
+    TextView myRecipes;
 
     //Create fields for the Async task to download recipe and ingredient jason files
     DownloadIngredients getIngredientJson = new DownloadIngredients();
@@ -39,6 +47,9 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        myInventory = (TextView) findViewById(R.id.myInventory);
+        myRecipes = (TextView) findViewById(R.id.myRecipes);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -47,6 +58,17 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if(InventoryActivity.inventoryList.isEmpty())
+        {
+            myInventory.append("0" + " items");
+            myRecipes.append("0" + " items");
+        }
+        else
+        {
+            myInventory.append(Integer.toString(InventoryActivity.inventoryList.size()) + " items");
+            myRecipes.append("0" + " items");
+        }
 
         //Set the delegate for both async tasks to this activity
         getIngredientJson.delegate = this;
@@ -83,7 +105,11 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            return true;
+            identityManager.signOut();
+            Context context = getApplicationContext();
+            Intent intent = new Intent(context, AuthenticatorActivity.class);
+            context.startActivity(intent);
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.sign_out), Toast.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -113,7 +139,7 @@ public class HomeActivity extends AppCompatActivity
             Intent intent = new Intent(context, InventoryActivity.class);
             context.startActivity(intent);
         } else if (id == R.id.nav_recipe) {
-            Toast.makeText(getApplicationContext(), "Currently under development", Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext(), "Currently under development", Toast.LENGTH_LONG).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -10,7 +10,7 @@ import android.view.MenuItem;
  * An activity representing a single User profile details screen. This
  * activity is only used narrow width devices. On tablet-size devices,
  * details are presented side-by-side with a list of items
- * in a { NoteListActivity}.
+ * in a { UserDetailsListActivity}.
  */
 public class UserDetailsActivity extends AppCompatActivity {
 

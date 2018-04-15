@@ -1,18 +1,32 @@
 <resources>
-    <string name="app_name">RobsRecipes</string>
+    <string name="app_name">Recipe Finder</string>
     <string name="label_user_details">User Details</string>
-    <string name="title_activity_home">HomeActivity</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_log_out">Log Out</string>
-
+    <string name="action_log_out">Sign Out</string>
     <string name="login_success">Login successful</string>
     <string name="my_inventory">My Inventory</string>
+    <string name="my_inventory2">My Inventory: </string>
     <string name="profile">My Profile</string>
     <string name="scan_item">Scan Ingredient</string>
     <string name="search">Search Ingredients</string>
     <string name="recipes">Find Recipes</string>
-
+    <string name="my_recipes">My Recipes: </string>
+    <string name="sort_by_name">Sort by Name</string>
+    <string name="sort_by_brand">Sort by Brand</string>
+    <string name="brand">Brand: </string>
+    <string name="name">Name: </string>
+    <string name="weight">Weight: </string>
+    <string name="barcode">Barcode: </string>
+    <string name="add_to_inventory">Add to My Inventory</string>
+    <string name="empty_inventory">Add items to your inventory and they will appear here!</string>
+    <string name="pop_up_title">Found Item</string>
+    <string name="sign_out">Logged out successfully!</string>
+    <string name="view">View</string>
+    <string name="cancel">Cancel</string>
+    <string name="item_not_found">Item Not Found</string>
+    <string name="first_name">First Name</string>
+    <string name="surname">Surname</string>
+    <string name="ingredient_details">Ingredient Details</string>
+    <string name="welcome">Welcome to the recipe finder app! Add ingredients to your inventory to get started</string>
 </resources>

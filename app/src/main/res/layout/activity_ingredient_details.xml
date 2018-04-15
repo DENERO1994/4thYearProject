@@ -15,27 +15,31 @@
     <TextView
         android:id="@+id/brand"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/brand" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/name" />
 
     <TextView
         android:id="@+id/weight"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/weight" />
 
     <TextView
         android:id="@+id/barcode"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/barcode" />
 
     <Button
         android:id="@+id/addItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add to Inventory" />
+        android:text="@string/add_to_inventory" />
 
 </LinearLayout>

@@ -14,15 +14,15 @@
             android:title="@string/search" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_profile"
             android:title="@string/profile" />
         <item
             android:id="@+id/nav_inventory"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_inventory"
             android:title="@string/my_inventory" />
         <item
             android:id="@+id/nav_recipe"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_recipe"
             android:title="@string/recipes" />
     </group>
 
